@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Car } from './car.entity';
+import { Car } from './entities/car.entity';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CategoryService } from '../category/category.service';
@@ -29,18 +29,18 @@ export class CarService {
     return this.carRepository.find({ relations: ['category'] });
   }
 
-  async findOne(id: number): Promise<Car> {
+  async findOne(carId: string): Promise<Car> {
     const car = await this.carRepository.findOne({
-      where: { id },
+      where: { id: carId },
       relations: ['category'],
     });
     if (!car) {
-      throw new NotFoundException(`Car with ID ${id} not found`);
+      throw new NotFoundException(`Car with ID ${carId} not found`);
     }
     return car;
   }
 
-  async update(id: number, updateCarDto: UpdateCarDto): Promise<Car> {
+  async update(id: string, updateCarDto: UpdateCarDto): Promise<Car> {
     const car = await this.findOne(id);
     if (updateCarDto.categoryId) {
       const category = await this.categoryService.findOne(
@@ -52,7 +52,7 @@ export class CarService {
     return this.carRepository.save(car);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const car = await this.findOne(id);
     await this.carRepository.remove(car);
   }

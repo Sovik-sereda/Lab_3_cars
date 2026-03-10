@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsInt, Min } from 'class-validator';
+import { IsString, IsInt, Min } from 'class-validator';
 
 export class CreateCarDto {
   @IsString()
@@ -11,6 +11,6 @@ export class CreateCarDto {
   @Min(1900)
   year: number;
 
-  @IsNumber()
-  categoryId: number; // ID категорії, до якої належить авто
+  @IsString()
+  categoryId: string; // ID категорії, до якої належить авто
 }

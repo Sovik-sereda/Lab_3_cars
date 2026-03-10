@@ -1,10 +1,10 @@
+import { Category } from '../../category/entities/category.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Category } from '../category/category.entity';
 
 @Entity()
 export class Car {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   brand: string;
